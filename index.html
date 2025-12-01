@@ -319,15 +319,34 @@
 
     <!-- Script do widget de chat (ESM) -->
     <script type="module">
-        import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat@latest/+esm";
-
-        document.addEventListener("DOMContentLoaded", () => {
+            import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat@latest/+esm";
+            
             createChat({
                 webhookUrl: "https://wpj1wm.app.n8n.cloud/webhook/ddf4ea5b-94fc-4fbf-b856-95d39a04eb59/chat",
                 target: "#n8n-chat",
-                mode: "fullscreen" // pode testar 'dock' ou 'bubble' se preferir
+                mode: "fullscreen",
+            
+                // >>> PERSONALIZAÇÃO DO CABEÇALHO
+                theme: {
+                    chatHeader: {
+                        title: "Agente de IA Tributário",
+                        subtitle: "Treinado com Base na Reforma Tributária da LC214_2025👋"
+                    }
+                },
+            
+                // >>> MENSAGENS INICIAIS PERSONALIZADAS
+                initialMessages: [
+                    {
+                        sender: "bot",
+                        text: "Olá! 👋"
+                    },
+                    {
+                        sender: "bot",
+                        text: "Meu nome é Agente LC214. Como posso te ajudar hoje?"
+                    }
+                ]
             });
-        });
-    </script>
+            </script>          
 </body>
 </html>
+
