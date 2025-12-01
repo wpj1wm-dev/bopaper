@@ -5,6 +5,12 @@
     <title>Painel de Análises Tributárias</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Estilo do widget de chat do n8n -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+        rel="stylesheet"
+    />
+
     <style>
         * {
             box-sizing: border-box;
@@ -155,6 +161,16 @@
             height: 100%;
             border: none;
         }
+
+        /* Ajustes específicos para a aba do chat */
+        [data-tab-content="chat"] {
+            padding: 0;
+        }
+
+        #n8n-chat {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -185,11 +201,6 @@
                     TDD
                 </button>
 
-                <button class="tab-button" data-tab="intercompany" role="tab" aria-selected="false">
-                    <span class="dot"></span>
-                    Operações Intercompany
-                </button>
-
                 <button class="tab-button" data-tab="bloco-k" role="tab" aria-selected="false">
                     <span class="dot"></span>
                     Bloco K
@@ -212,20 +223,11 @@
 
                 <!-- Introdução -->
                 <section class="tab-content active p-4 md:p-8" data-tab-content="intro">
-                    <!-- 
-                        O contêiner 'div' garante que temos 100% de largura (w-full).
-                        A classe 'w-full' na tag <img> força a imagem a ocupar essa largura total. 
-                    -->
                     <div class="flex justify-center items-start w-full h-auto">
                         <img
                             src="https://raw.githubusercontent.com/wpj1wm-dev/frio-pecas/main/Capa.png"
                             alt="Imagem da Capa do Projeto Frio Peças"
-                            
-                            <!-- ALTERAÇÃO CRÍTICA: Mudamos de 'max-w-full' para 'w-full' para preencher 100% -->
-                            <!-- Também simplifiquei o estilo para garantir que não haja bordas ou cantos que limitem o preenchimento -->
                             class="w-full h-auto shadow-xl transition duration-300"
-                            
-                            <!-- REMOVIDA A RESTRIÇÃO DE ALTURA (max-height: 85vh) que estava limitando a largura -->
                             onerror="this.src='https://placehold.co/1200x600/4F46E5/ffffff?text=IMAGEM+NAO+ENCONTRADA+Verifique+o+link+RAW'"
                         />
                     </div>
@@ -235,16 +237,8 @@
                 <section class="tab-content" data-tab-content="tdd">
                     <iframe
                         class="report-frame"
-                        src="https://app.powerbi.com/reportEmbed?reportId=54f37c2f-71eb-468d-bc42-0419062b7f21&autoAuth=true&ctid=18fd44de-f8a4-45e0-b2f5-8e258ac0e6ee&actionBarEnabled=true&reportCopilotInEmbed=true"
+                        src="https://app.powerbi.com/reportEmbed?reportId=b69c244e-3088-4b9e-a4df-883258c5da25&autoAuth=true&ctid=18fd44de-f8a4-45e0-b2f5-8e258ac0e6ee&actionBarEnabled=true&reportCopilotInEmbed=true"
                         allowfullscreen="true">
-                    </iframe>
-                </section>
-
-                <!-- Intercompany -->
-                <section class="tab-content" data-tab-content="intercompany">
-                    <iframe
-                        class="report-frame"
-                        src="https://app.powerbi.com/reportEmbed?reportId=fa036ea4-a82a-4933-86b4-ed9569f2b926&autoAuth=true&ctid=18fd44de-f8a4-45e0-b2f5-8e258ac0e6ee&actionBarEnabled=true&reportCopilotInEmbed=true">
                     </iframe>
                 </section>
 
@@ -266,12 +260,8 @@
 
                 <!-- Chat - Agente IA -->
                 <section class="tab-content" data-tab-content="chat">
-                    <iframe
-                        class="report-frame"
-                        src="https://wpj1wm.app.n8n.cloud/webhook/ddf4ea5b-94fc-4fbf-b856-95d39a04eb59/chat">
-                    </iframe>
+                    <div id="n8n-chat"></div>
                 </section>
-
 
             </div>
         </div>
@@ -326,10 +316,18 @@
 
         document.addEventListener("fullscreenchange", updateFullscreenButton);
     </script>
+
+    <!-- Script do widget de chat (ESM) -->
+    <script type="module">
+        import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat@latest/+esm";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            createChat({
+                webhookUrl: "https://wpj1wm.app.n8n.cloud/webhook/ddf4ea5b-94fc-4fbf-b856-95d39a04eb59/chat",
+                target: "#n8n-chat",
+                mode: "fullscreen" // pode testar 'dock' ou 'bubble' se preferir
+            });
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
