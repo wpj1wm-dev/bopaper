@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Bo Paper – Reforma Tributária (Gráficos + Análises)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        :root {
+            --bg-main: #05060a;
+            --bg-card: #11131b;
+            --bg-card-soft: #151822;
+            --accent: #5cb7ff;
+            --accent-soft: rgba(92, 183, 255, 0.16);
+            --text-main: #f5f5f5;
+            --text-muted: #b3b9c6;
+            --border-subtle: #252838;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                Roboto, sans-serif;
+            background: radial-gradient(circle at top, #15192b 0, #05060a 45%, #020308 100%);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px 16px 48px;
+        }
+
+        header {
+            margin-bottom: 32px;
+        }
+
+        header h1 {
+            font-size: 1.9rem;
+            margin: 0 0 8px;
+            letter-spacing: 0.03em;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 780px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .badge span.dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .grid {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .chart-card {
+            background: linear-gradient(145deg, var(--bg-card) 0, var(--bg-card-soft) 100%);
+            border-radius: 18px;
+            border: 1px solid var(--border-subtle);
+            padding: 20px 20px 18px;
+            box-shadow:
+                0 20px 45px rgba(0, 0, 0, 0.55),
+                0 0 0 1px rgba(255, 255, 255, 0.01);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .chart-header-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .chart-header-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .chart-body {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .chart-body figure {
+            margin: 0;
+            flex: 1.1;
+            min-width: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chart-body img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+            background: #05060a;
+        }
+
+        .analysis {
+            flex: 1;
+            min-width: 0;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: radial-gradient(circle at top left,
+                    rgba(92, 183, 255, 0.08) 0,
+                    rgba(10, 12, 22, 0.9) 45%,
+                    rgba(5, 6, 10, 0.95) 100%);
+            border: 1px solid rgba(123, 133, 170, 0.35);
+        }
+
+        .analysis h3 {
+            margin: 0 0 8px;
+            font-size: 0.9rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .analysis p {
+            margin: 0 0 8px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .analysis p:last-child {
+            margin-bottom: 0;
+        }
+
+        .pill {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+        }
+
+        footer {
+            margin-top: 32px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: right;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 900px) {
+            .page {
+                padding: 20px 12px 36px;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            .chart-body {
+                flex-direction: column;
+            }
+
+            .analysis {
+                margin-top: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header>
+        <div class="badge">
+            <span class="dot"></span>
+            Bo Paper · Reforma Tributária (IBS/CBS)
+        </div>
+        <h1>Visão Executiva – Análises Baseadas em IA - Inteligência Artificial</h1>
+        <p>
+            Painel consolidado com os principais gráficos do mapeamento da Reforma Tributária (IBS/CBS)
+            da Bo Paper, acompanhados das análises qualificadas ao lado de cada visualização.
+        </p>
+    </header>
+
+    <main class="grid">
+
+        <!-- 1. Progresso Mapeamento -->
+        <section class="chart-card" id="progresso-mapeamento">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        1. Progresso do Mapeamento de Regras Fiscais
+                    </div>
+                    <div class="chart-header-sub">
+                        Gauge / Donut – % de cenários IBS/CBS mapeados
+                    </div>
+                </div>
+                <span class="pill">progresso_mapeamento_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="progresso_mapeamento_bopaper.svg"
+                         alt="Progresso do mapeamento de regras fiscais (Gauge/Donut)" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O nível de conclusão de 85% indica que o mapeamento fiscal da Reforma Tributária
+                        está em fase avançada, com a maior parte dos cenários já parametrizada para
+                        IBS/CBS. Os 15% pendentes provavelmente concentram casos mais complexos
+                        (operações específicas, regimes especiais, exceções de layout ou particularidades
+                        de clientes/fornecedores).
+                    </p>
+                    <p>
+                        A recomendação é priorizar os cenários pendentes com maior volume de notas e maior
+                        risco fiscal, para garantir que, na virada de regra, não haja operações sem
+                        parametrização clara. Este indicador deve ser monitorado semanalmente até chegar
+                        próximo de 100% e, depois, ser transformado em KPI de governança contínua de
+                        regras fiscais.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Status Layout NF-e -->
+        <section class="chart-card" id="status-layout-nfe">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        2. Status de Adequação dos Layouts da NF-e por Grupo
+                    </div>
+                    <div class="chart-header-sub">
+                        Barras de conclusão por grupo de layout (B, BB, UB01, UB12, UB17, UB36)
+                    </div>
+                </div>
+                <span class="pill">status_layout_nfe_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="status_layout_nfe_bopaper.svg"
+                         alt="Status de adequação dos layouts da NF-e por grupo" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O gráfico evidencia que a parte de estrutura básica e tributação principal
+                        (B, UB01, UB12) está relativamente madura, enquanto os componentes de detalhamento
+                        federativo (UB17, UB36) ainda estão em fase inicial. Isso é coerente com a
+                        priorização natural de campos críticos para cálculo do imposto.
+                    </p>
+                    <p>
+                        Do ponto de vista de risco, os grupos com menos de 50% (UB17 e UB36) precisam de
+                        um plano de ação claro de TI, testes integrados com SEFAZ e validação com a área
+                        Fiscal, pois são fundamentais para a correta distribuição do IBS entre estados e
+                        municípios. Esse gráfico pode ser acoplado a um plano de sprints de
+                        desenvolvimento.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Impacto Operações -->
+        <section class="chart-card" id="impacto-operacoes">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        3. Impacto das Operações – Volume x Complexidade
+                    </div>
+                    <div class="chart-header-sub">
+                        Proxy de Treemap – operações (venda, devolução, remessa, ZFM, exportação)
+                    </div>
+                </div>
+                <span class="pill">impacto_operacoes_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="impacto_operacoes_bopaper.svg"
+                         alt="Impacto das operações – volume x complexidade" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        As operações com maior volume e alta complexidade (por exemplo, vendas para
+                        revenda e determinadas devoluções) devem ser tratadas como “trilhos prioritários”
+                        para testes e homologação. Elas combinam impacto operacional e risco fiscal
+                        significativo.
+                    </p>
+                    <p>
+                        Operações de menor volume, mas alta complexidade, devem ser monitoradas como
+                        “pontos de atenção” – não necessariamente críticas em volume, mas críticas em
+                        risco (por exemplo, cenários especiais de ZFM ou regimes específicos de
+                        industrialização).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Distribuição Regras -->
+        <section class="chart-card" id="distribuicao-regras">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        4. Distribuição das Regras por Tipo de Impacto
+                    </div>
+                    <div class="chart-header-sub">
+                        Pizza – troca de CST/ClassTrib, mudança de CFOP e regras novas
+                    </div>
+                </div>
+                <span class="pill">distribuicao_regras_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="distribuicao_regras_bopaper.svg"
+                         alt="Distribuição das regras por tipo de impacto" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        A predominância de regras com apenas troca de CST/ClassTrib indica que grande
+                        parte da adequação é de natureza “parametrização de tabela”, menos estrutural,
+                        desde que o CFOP continue o mesmo. Isso torna a implantação mais gerenciável,
+                        mas exige revisão cuidadosa de cadastro e integrações.
+                    </p>
+                    <p>
+                        As regras em que CFOP e CST são alterados, bem como as regras totalmente novas,
+                        concentram maior risco de erro contábil/fiscal e impacto em processos
+                        (faturamento, pricing, pedidos). Esses casos devem ter documentação mais
+                        detalhada, testes com notas reais e validação conjunta Fiscal–Comercial–TI.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Heatmap Complexidade -->
+        <section class="chart-card" id="heatmap-complexidade">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        5. Heatmap de Complexidade por Área x Dimensão
+                    </div>
+                    <div class="chart-header-sub">
+                        Matriz de Processos, Sistemas, Pessoas e Compliance por área
+                    </div>
+                </div>
+                <span class="pill">heatmap_complexidade_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="heatmap_complexidade_bopaper.svg"
+                         alt="Heatmap de complexidade por área x dimensão" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O calor concentrado em Fiscal e TI em Processos/Sistemas mostra que a reforma é,
+                        essencialmente, uma mudança de regras e de tecnologia. Isso está alinhado com o
+                        próprio conteúdo do mapeamento, que detalha ajustes em CFOP, CST, cClassTrib,
+                        layouts NF-e e parametrizações em sistemas.
+                    </p>
+                    <p>
+                        Dimensões de Pessoas e Compliance com índice elevado indicam necessidade de
+                        treinamento, atualização de políticas e revisão de controles internos
+                        (ex.: conferência de notas, validação de CST, rotinas de auditoria). Esse
+                        heatmap pode direcionar o plano de treinamento e as ações de change management.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Waterfall Carga Tributária -->
+        <section class="chart-card" id="waterfall-carga">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        6. Waterfall – Efeito Conceitual da Reforma na Carga Tributária
+                    </div>
+                    <div class="chart-header-sub">
+                        Carga atual, novos débitos, créditos ampliados e resultado líquido
+                    </div>
+                </div>
+                <span class="pill">waterfall_carga_tributaria_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="waterfall_carga_tributaria_bopaper.svg"
+                         alt="Waterfall do efeito conceitual da reforma na carga tributária" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        A análise waterfall ajuda a separar o que é aumento de base/abrangência do
+                        tributo daquilo que é expansão do direito a crédito. Mesmo com aumento pontual
+                        em algumas operações, a recuperação de créditos de insumos e despesas (antes
+                        consideradas uso e consumo) tende a amortecer a carga global ao longo do tempo.
+                    </p>
+                    <p>
+                        Essa visão é estratégica para apresentar à diretoria: mostra que não se trata
+                        apenas de “mais imposto”, mas de uma reconfiguração da matriz de
+                        débito/crédito, o que exige boa governança de cadastro, compras, classificação
+                        fiscal e gestão de créditos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Matriz RAG Projetos -->
+        <section class="chart-card" id="matriz-rag">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        7. Matriz RAG – Status das Frentes do Projeto de Reforma
+                    </div>
+                    <div class="chart-header-sub">
+                        Visão executiva de risco (Verde / Amarelo / Vermelho) por frente
+                    </div>
+                </div>
+                <span class="pill">matriz_rag_projetos_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="matriz_rag_projetos_bopaper.svg"
+                         alt="Matriz RAG – status das frentes do projeto de reforma" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        A matriz RAG é um painel executivo: em segundos, a diretoria enxerga quais
+                        frentes estão sob controle e quais exigem intervenção (por exemplo, Treinamento
+                        em vermelho e TI em amarelo).
+                    </p>
+                    <p>
+                        Idealmente, cada frente deve ter um owner, um prazo alvo e um conjunto de
+                        entregas mensuráveis (CRs implementados, número de pessoas treinadas, políticas
+                        revisadas). A leitura conjunta com o cronograma da reforma permite priorizar
+                        recursos e evitar gargalos na virada de regra.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. Impacto por UF -->
+        <section class="chart-card" id="impacto-uf">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        8. Impacto por UF – Base para Mapa Geográfico
+                    </div>
+                    <div class="chart-header-sub">
+                        Índice de impacto (volume x complexidade) por UF de atuação
+                    </div>
+                </div>
+                <span class="pill">impacto_uf_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="impacto_uf_bopaper.svg"
+                         alt="Impacto por UF – base para mapa geográfico" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        Estados com maior índice (como PR e SP, por exemplo) combinam maior volume de
+                        operações com maior complexidade fiscal, e por isso merecem prioridade em
+                        testes, revisão de parametrizações e simulações de carga tributária
+                        pós-reforma.
+                    </p>
+                    <p>
+                        Esse gráfico, transformado em mapa no BI, permite cruzar: UF x volume de notas x
+                        status de mapeamento x risco de não conformidade. Também é útil para priorizar
+                        negociação e alinhamento com clientes estratégicos de cada região.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. Cronograma Reforma -->
+        <section class="chart-card" id="cronograma-reforma">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        9. Cronograma Simplificado da Reforma Tributária (2023–2033)
+                    </div>
+                    <div class="chart-header-sub">
+                        Linha do tempo com marcos legais e fases de implementação
+                    </div>
+                </div>
+                <span class="pill">cronograma_reforma_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="cronograma_reforma_bopaper.svg"
+                         alt="Cronograma simplificado da Reforma Tributária de 2023 a 2033" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O cronograma organiza as grandes fases já definidas em lei: EC 132/2023,
+                        regulamentações por leis complementares, ano teste com alíquotas reduzidas em
+                        2026, entrada em vigor da CBS, transição do ICMS/ISS para o IBS entre 2029 e
+                        2032 e o novo modelo integral em 2033.
+                    </p>
+                    <p>
+                        Essa linha do tempo é o eixo mestre de planejamento: o programa interno da Bo
+                        Paper deve encaixar entregas de mapeamento, TI, treinamento e ajustes contratuais
+                        de acordo com esses marcos externos – evitando tanto atrasos quanto esforço
+                        antecipado em fases ainda sujeitas a mudanças normativas.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. Cenários por Tipo de Operação -->
+        <section class="chart-card" id="cenarios-por-tipo">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        10. Cenários Fiscais por Tipo de Operação (Mapeado x Pendente)
+                    </div>
+                    <div class="chart-header-sub">
+                        Barras comparando cenários concluídos e pendentes por tipo de operação
+                    </div>
+                </div>
+                <span class="pill">cenarios_por_tipo_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="cenarios_por_tipo_bopaper.svg"
+                         alt="Cenários fiscais mapeados e pendentes por tipo de operação" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O gráfico evidencia onde está concentrado o esforço de mapeamento: se a maior
+                        parte dos cenários de Vendas e Compras já está concluída, mas Serviços e
+                        Exportações ainda têm pendências, isso indica onde o time fiscal deve focar as
+                        próximas iterações.
+                    </p>
+                    <p>
+                        Essa visão conecta o dashboard ao conteúdo do mapeamento, que diferencia
+                        compras, vendas, importações, exportações, serviços, transferências, amostras
+                        grátis, bonificações etc., cada qual com seu tratamento IBS/CBS específico.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. Mapa de Risco das Operações -->
+        <section class="chart-card" id="mapa-risco-operacoes">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        11. Mapa de Risco – Impacto x Probabilidade x Complexidade
+                    </div>
+                    <div class="chart-header-sub">
+                        Gráfico de bolhas com operações críticas em destaque
+                    </div>
+                </div>
+                <span class="pill">mapa_risco_operacoes_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="mapa_risco_operacoes_bopaper.svg"
+                         alt="Mapa de risco das operações por impacto, probabilidade e complexidade" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O foco é identificar quais operações podem “estourar” primeiro em caso de
+                        parametrização incorreta ou atraso na implantação. Locação e operações com
+                        diferimento/regime especial do PR aparecem com alto impacto e alta probabilidade,
+                        reforçando a preocupação já registrada no estudo.
+                    </p>
+                    <p>
+                        Industrialização por encomenda e operações não onerosas ganham relevância porque
+                        passam a ter tratamentos diferentes no novo modelo. O mapa subsidia um plano
+                        formal de gestão de riscos, com ações mitigadoras, responsáveis e prazos por
+                        operação.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12. Heatmap Layout x TI -->
+        <section class="chart-card" id="heatmap-layout-ti">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        12. Mapa de Progresso – Layout NF-e x Etapas de TI
+                    </div>
+                    <div class="chart-header-sub">
+                        Heatmap cruzando grupos de layout com requisitos, desenvolvimento, testes e produção
+                    </div>
+                </div>
+                <span class="pill">heatmap_layout_ti_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="heatmap_layout_ti_bopaper.svg"
+                         alt="Mapa de progresso de layout NF-e por etapas de TI" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        Ao cruzar grupos de layout (B, BB, UB01, UB12, UB17, UB36) com as etapas de TI
+                        (Requisitos, Desenvolvimento, Testes, Produção), a empresa visualiza onde a
+                        cadeia de entrega está travando.
+                    </p>
+                    <p>
+                        Um grupo “OK” em Requisitos e Desenvolvimento, mas ainda “NI” em Produção,
+                        indica necessidade de acelerar testes e homologação com SEFAZ. Já grupos com
+                        “NI” em todas as colunas mostram risco de não estarem prontos até a virada de
+                        regra, exigindo replanejamento de prioridades.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 13. Radar de Maturidade -->
+        <section class="chart-card" id="radar-maturidade">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        13. Radar de Maturidade – Gestão da Reforma Tributária
+                    </div>
+                    <div class="chart-header-sub">
+                        Avaliação de seis pilares: Governança, Riscos, Indicadores, Treinamento, Documentação, Automação
+                    </div>
+                </div>
+                <span class="pill">radar_maturidade_reforma_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="radar_maturidade_reforma_bopaper.svg"
+                         alt="Radar de maturidade da gestão da Reforma Tributária" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O radar posiciona a Bo Paper em relação a Governança, Riscos &amp; Controles,
+                        Indicadores &amp; BI, Treinamento, Documentação e Automação/RPA.
+                    </p>
+                    <p>
+                        Pontuações mais baixas em Treinamento e Documentação indicam que, embora a parte
+                        técnica possa estar avançada, pessoas e processos ainda não internalizaram
+                        completamente as mudanças. Isso sinaliza a necessidade de um plano estruturado de
+                        capacitação e atualização de manuais.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 14. Créditos Recuperáveis em Despesas com Empregados -->
+        <section class="chart-card" id="creditos-recuperaveis-empregados">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        14. Potencial de Economia – Créditos em Despesas com Empregados
+                    </div>
+                    <div class="chart-header-sub">
+                        Comparativo de créditos em uniformes, EPIs, alimentação, saúde, creche etc.
+                    </div>
+                </div>
+                <span class="pill">creditos_recuperaveis_empregados_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="creditos_recuperaveis_empregados_bopaper.svg"
+                         alt="Potencial de créditos recuperáveis em despesas com empregados" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O gráfico mostra o potencial de crédito recuperável em itens como uniformes,
+                        EPIs, alimentação, saúde e creche oferecidos aos empregados – exatamente os
+                        exemplos destacados como oportunidades de economia tributária com a Reforma.
+                    </p>
+                    <p>
+                        Essa visão ajuda a priorizar projetos de revisão de CFOP/NCM/CST e contratos de
+                        fornecimento relacionados a esses itens, além de permitir simulações financeiras
+                        sobre o crédito anual possível se cada categoria for parametrizada corretamente.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 15. Scorecard KPI RAG -->
+        <section class="chart-card" id="scorecard-kpi-rag">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        15. Painel RAG – KPIs da Implementação da Reforma
+                    </div>
+                    <div class="chart-header-sub">
+                        Scorecard consolidando indicadores de mapeamento, layouts, treinamento e automações
+                    </div>
+                </div>
+                <span class="pill">scorecard_kpi_rag_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="scorecard_kpi_rag_bopaper.svg"
+                         alt="Painel RAG consolidando KPIs da implementação da reforma" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O scorecard reúne, em uma única visão, os principais indicadores do programa:
+                        mapeamento de cenários, status dos layouts NF-e, avaliação de fornecedores,
+                        mapeamento de clientes por UF, treinamento do time e automações em produção.
+                    </p>
+                    <p>
+                        KPIs em vermelho – por exemplo, % de time treinado ou % de automações entregues –
+                        devem ser tratados em reuniões de comitê como itens de pauta obrigatórios, com
+                        planos de recuperação claros. No BI, este painel pode ser a tela inicial do
+                        dashboard executivo.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 16. Pareto CFOP -->
+        <section class="chart-card" id="pareto-cfop">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        16. Pareto de CFOP – Volume de Operações
+                    </div>
+                    <div class="chart-header-sub">
+                        CFOPs que concentram mais de 75% das operações totais
+                    </div>
+                </div>
+                <span class="pill">pareto_cfop_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="pareto_cfop_bopaper.svg"
+                         alt="Pareto de CFOP com maior volume de operações" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        A concentração elevada em poucos CFOPs mostra que os principais riscos e impactos
+                        da Reforma Tributária estão nesses códigos. Priorizá-los garante maior cobertura
+                        de riscos fiscais, eficiência nos testes de notas e evolução rápida do
+                        mapeamento IBS/CBS.
+                    </p>
+                    <p>
+                        Recomenda-se aplicar “testes de stress” nesses CFOPs, simulando múltiplos
+                        cenários de CST, cClassTrib e regras federativas (gIBSUF/gIBSMun) para evitar
+                        falhas no faturamento e nas apurações.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 17. Histograma de Divergências NCM -->
+        <section class="chart-card" id="histograma-ncm">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        17. Histograma de Divergências de NCM
+                    </div>
+                    <div class="chart-header-sub">
+                        Distribuição da inconsistência entre NCM original e NCM validado
+                    </div>
+                </div>
+                <span class="pill">histograma_ncm_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="histograma_ncm_bopaper.svg"
+                         alt="Histograma das divergências entre NCM original e validado" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        A presença de um “duplo pico” evidencia que, embora a maioria dos itens tenha
+                        baixa divergência, há um grupo menor com diferenças críticas entre NCM original e
+                        NCM validado.
+                    </p>
+                    <p>
+                        Esses itens devem ser tratados como “produtos críticos”, pois impactam CST
+                        IBS/CBS, benefícios fiscais, créditos de insumo e enquadramento em exceções. É
+                        recomendável criar uma rotina semanal de auditoria de NCM focada nos itens mais
+                        discrepantes.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 18. Boxplot Créditos -->
+        <section class="chart-card" id="boxplot-creditos">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        18. Boxplot – Potencial de Crédito por Categoria
+                    </div>
+                    <div class="chart-header-sub">
+                        Distribuição do potencial de crédito em EPIs, alimentação, saúde, creche, uniformes etc.
+                    </div>
+                </div>
+                <span class="pill">boxplot_creditos_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="boxplot_creditos_bopaper.svg"
+                         alt="Boxplot do potencial de créditos por categoria de despesa" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O boxplot mostra que categorias como EPIs e Alimentação oferecem maior potencial
+                        de crédito com menor variabilidade, sendo candidatas ideais para automatizar a
+                        captura de créditos.
+                    </p>
+                    <p>
+                        Categorias com grande dispersão, como Saúde e Creche, sugerem irregularidade no
+                        lançamento ou inconsistências de CFOP/itens – oportunidades claras de
+                        padronização para maximizar créditos e reduzir riscos.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 19. Dispersão CST -->
+        <section class="chart-card" id="dispersao-cst">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        19. Dispersão – Notas com Divergência de CST
+                    </div>
+                    <div class="chart-header-sub">
+                        Pontos em vermelho indicam notas com divergência detectada
+                    </div>
+                </div>
+                <span class="pill">dispersao_cst_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="dispersao_cst_bopaper.svg"
+                         alt="Dispersão de notas com e sem divergência de CST" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        A dispersão evidencia que as divergências de CST não são aleatórias – elas se
+                        concentram em blocos de notas, apontando para parametrização incorreta de
+                        produtos, erros recorrentes em clientes/fornecedores ou regras fiscais mal
+                        configuradas no ERP.
+                    </p>
+                    <p>
+                        As notas em vermelho devem ser auditadas e usadas como casos-piloto em
+                        treinamentos conjuntos de Fiscal e TI, reforçando boas práticas de
+                        parametrização e conferência.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 20. Linha de Erros NF-e -->
+        <section class="chart-card" id="linha-erros-nfe">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        20. Linha do Tempo – Erros de Validação NF-e por Semana
+                    </div>
+                    <div class="chart-header-sub">
+                        Evolução semanal de rejeições e inconsistências de NF-e
+                    </div>
+                </div>
+                <span class="pill">linha_erros_nfe_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="linha_erros_nfe_bopaper.svg"
+                         alt="Linha do tempo dos erros de validação de NF-e por semana" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        O declínio progressivo dos erros mostra que as correções e parametrizações vêm
+                        surtindo efeito. Entretanto, picos intermediários indicam regressões associadas a
+                        mudanças de layout, deploys de TI, entrada de novos fornecedores ou alteração de
+                        regras internas.
+                    </p>
+                    <p>
+                        A meta ideal é manter o indicador abaixo de 10 erros por semana e integrá-lo ao
+                        painel RAG, para que qualquer tendência de aumento seja rapidamente endereçada.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 21. Treemap Conceitual de Operações -->
+        <section class="chart-card" id="treemap-operacoes">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-header-title">
+                        21. Treemap Conceitual por Tipo de Operação
+                    </div>
+                    <div class="chart-header-sub">
+                        Peso relativo de vendas, compras, amostras, exportações e demais operações
+                    </div>
+                </div>
+                <span class="pill">treemap_operacoes_bopaper.svg</span>
+            </div>
+            <div class="chart-body">
+                <figure>
+                    <img src="treemap_operacoes_bopaper.svg"
+                         alt="Treemap conceitual por tipo de operação" />
+                </figure>
+                <div class="analysis">
+                    <h3>Análise</h3>
+                    <p>
+                        A visualização evidencia que Vendas e Compras dominam a operação, mas
+                        operações de menor volume – como Amostras e Exportações – podem carregar maior
+                        complexidade na Reforma Tributária, com novas regras, neutralidades e regimes
+                        específicos.
+                    </p>
+                    <p>
+                        Isso reforça a necessidade de um mapeamento profundo dos casos “fora da curva”,
+                        mesmo que representem baixo volume, pois são justamente aqueles em que erros
+                        costumam gerar maior risco fiscal e questionamentos de fiscalização.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        Bo Paper · Reforma Tributária IBS/CBS – Dashboard consolidado de mapeamento e governança fiscal.
+    </footer>
+</div>
+</body>
+</html>
