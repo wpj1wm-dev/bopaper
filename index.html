@@ -171,6 +171,82 @@
             width: 100%;
             height: 100%;
         }
+
+        /* ====== SUBMENUS DENTRO DE "INTELIGÊNCIA ARTIFICIAL" ====== */
+
+        .tab-content.ia-tab {
+            display: none;
+        }
+
+        .tab-content.ia-tab.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ia-sub-tabs {
+            display: flex;
+            gap: 6px;
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(55, 65, 81, 0.9);
+            background: #020617;
+        }
+
+        .ia-sub-btn {
+            border: none;
+            background: #020617;
+            color: #9ca3af;
+            padding: 6px 12px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(75, 85, 99, 0.8);
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s;
+            white-space: nowrap;
+        }
+
+        .ia-sub-btn:hover {
+            background: #111827;
+            color: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        .ia-sub-btn.active {
+            background: #1f2937;
+            color: #f9fafb;
+            border-color: #38bdf8;
+        }
+
+        .ia-inner-content-wrapper {
+            flex: 1;
+            position: relative;
+            padding: 10px;
+        }
+
+        .ia-tab-content {
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            display: none;
+            background: #020617;
+        }
+
+        .ia-tab-content.active {
+            display: block;
+        }
+
+        .ia-simulacoes-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
     </style>
 </head>
 <body>
@@ -211,9 +287,10 @@
                     Demais Análises
                 </button>
 
-                <button class="tab-button" data-tab="chat" role="tab" aria-selected="false">
+                <!-- NOVA ÚLTIMA ABA: INTELIGÊNCIA ARTIFICIAL -->
+                <button class="tab-button" data-tab="ia" role="tab" aria-selected="false">
                     <span class="dot"></span>
-                    Chat - Agente IA
+                    Inteligência Artificial
                 </button>
 
             </nav>
@@ -258,9 +335,44 @@
                     </iframe>
                 </section>
 
-                <!-- Chat - Agente IA -->
-                <section class="tab-content" data-tab-content="chat">
-                    <div id="n8n-chat"></div>
+                <!-- INTELIGÊNCIA ARTIFICIAL (com submenus) -->
+                <section class="tab-content ia-tab" data-tab-content="ia">
+
+                    <!-- Submenus -->
+                    <div class="ia-sub-tabs">
+                        <button class="ia-sub-btn active" data-ia-tab="chat">
+                            Chat - Agente IA
+                        </button>
+                        <button class="ia-sub-btn" data-ia-tab="analise-op">
+                            Análise Operações
+                        </button>
+                        <button class="ia-sub-btn" data-ia-tab="simulacoes">
+                            Simulações
+                        </button>
+                    </div>
+
+                    <!-- Conteúdo dos submenus -->
+                    <div class="ia-inner-content-wrapper">
+                        <!-- Chat - Agente IA -->
+                        <div class="ia-tab-content active" data-ia-tab-content="chat">
+                            <div id="n8n-chat"></div>
+                        </div>
+
+                        <!-- Análise Operações -->
+                        <div class="ia-tab-content" data-ia-tab-content="analise-op">
+                            <iframe
+                                class="report-frame"
+                                src="dashboard_bopaper.html">
+                            </iframe>
+                        </div>
+
+                        <!-- Simulações (sem link por enquanto) -->
+                        <div class="ia-tab-content" data-ia-tab-content="simulacoes">
+                            <div class="ia-simulacoes-placeholder">
+                                Área de simulações da Reforma em desenvolvimento....
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
             </div>
@@ -268,7 +380,7 @@
     </div>
 
     <script>
-        // Lógica das abas
+        // Lógica das abas principais
         const tabButtons = document.querySelectorAll(".tab-button");
         const tabContents = document.querySelectorAll(".tab-content");
 
@@ -283,6 +395,28 @@
                 // Atualiza conteúdos
                 tabContents.forEach(content => {
                     const tabName = content.getAttribute("data-tab-content");
+                    if (tabName === target) {
+                        content.classList.add("active");
+                    } else {
+                        content.classList.remove("active");
+                    }
+                });
+            });
+        });
+
+        // Lógica dos submenus da aba "Inteligência Artificial"
+        const iaSubButtons = document.querySelectorAll(".ia-sub-btn");
+        const iaTabContents = document.querySelectorAll(".ia-tab-content");
+
+        iaSubButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const target = button.getAttribute("data-ia-tab");
+
+                iaSubButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+
+                iaTabContents.forEach(content => {
+                    const tabName = content.getAttribute("data-ia-tab-content");
                     if (tabName === target) {
                         content.classList.add("active");
                     } else {
@@ -326,10 +460,6 @@
             target: "#n8n-chat",
             mode: "fullscreen",
     
-            // Se quiser remover COMPLETAMENTE o "Hi there!" grande lá em cima,
-            // basta deixar false:
-            // showWelcomeScreen: false,
-    
             showWelcomeScreen: true,
             defaultLanguage: "pt",
     
@@ -354,5 +484,3 @@
 
 </body>
 </html>
-
-
